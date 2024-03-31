@@ -6,26 +6,33 @@ using UnityEngine;
 
 public class Sheet : MonoBehaviour
 {
-    [SerializeField] KeywordTextHandler Str;
-    [SerializeField] TMP_Text Atk;
-    [SerializeField] TMP_Text ST;
+    [SerializeField] TMP_Text Name;
+    [SerializeField] TMP_Text Prof;
+    [SerializeField] TMP_Text Str, Dex, Con, Int, Wis, Cha;
+    [SerializeField] TMP_Text Atk, StP, StS;
 
-    [Space,SerializeField] List<Status> statusList = new();
-
-    Dictionary<string, IValueReference<int>> stats = new();
-    const string prof = "prof",str = "str", atk = "atk",st="st";
+    [Space, SerializeField] MonsterTemplate template;
 
     StringCode code = new("[", "]");
     List<IMacro> macros = new();
 
     private void Awake()
     {
-        stats[prof] = new NumberReference(2);
-        stats[str] = new NumberReference(3);
-        stats[atk] = new ValueMerger(stats[str], stats[prof], Operations.Get("+"));
-        stats[st] = new ValueMerger(stats[str], stats[prof], Operations.Get("+"));
+        //setup
+        template.SetUp();
 
         //show
+        Name.text = template.name;
+        Prof.text = $"Prof. bonus: {template.Stats[MonsterTemplate.sProf].GetValue()}";
+        Str.text = $"Str: {template.Stats[MonsterTemplate.sStr].GetValue()}";
+        Dex.text = $"Dex: {template.Stats[MonsterTemplate.sDex].GetValue()}";
+        Con.text = $"Con: {template.Stats[MonsterTemplate.sCon].GetValue()}";
+        Int.text = $"Int: {template.Stats[MonsterTemplate.sInt].GetValue()}";
+        Wis.text = $"Wis: {template.Stats[MonsterTemplate.sWis].GetValue()}";
+        Cha.text = $"Cha: {template.Stats[MonsterTemplate.sCha].GetValue()}";
+        Atk.text = $"Atk: {template.Stats[MonsterTemplate.sAtk].GetValue()}";
+        StP.text = $"StP: {template.Stats[MonsterTemplate.sStP].GetValue()}";
+        StS.text = $"StS: {template.Stats[MonsterTemplate.sStS].GetValue()}";
 
         //macros
         MultiMacro multiMacro = new(new("Sword",""));
@@ -59,5 +66,5 @@ public class Sheet : MonoBehaviour
         return new Macro(valueReference, keyword);
     }
 
-    private IValueReference<int> GetValueReference(string key) => stats.ContainsKey(key)? stats[key] : new NumberReference(0);
+    private IValueReference<int> GetValueReference(string key) => template.Stats.ContainsKey(key)? template.Stats[key] : new NumberReference(0);
 }
