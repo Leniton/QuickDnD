@@ -1,5 +1,5 @@
 
-public interface IOperation
+public interface IOperation<T>
 {
-    public int GetValue(int a, int b);
+    public T GetValue(T a, T b);
 }

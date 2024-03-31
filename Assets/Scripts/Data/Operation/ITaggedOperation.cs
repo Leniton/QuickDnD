@@ -1,4 +1,4 @@
 ﻿
-public interface ITaggedOperation : I_IdentityKey, IOperation
+public interface ITaggedOperation : I_IdentityKey, IOperation<int>
 {
 }
