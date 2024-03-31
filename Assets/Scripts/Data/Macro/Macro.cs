@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
 
 public class Macro : IMacro
 {
@@ -86,5 +82,15 @@ public class Macro : IMacro
         debug += bonus.ToString();
 
         return $"{diceAmount}d{diceType} {operation.key} {bonus} = {value} [{debug}]";
+    }
+}
+
+public class RollData
+{
+    public int type, amount;
+    public RollData(int type, int amount)
+    {
+        this.type = type;
+        this.amount = amount;
     }
 }

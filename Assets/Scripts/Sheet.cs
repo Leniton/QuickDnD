@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,7 +10,7 @@ public class Sheet : MonoBehaviour
     [SerializeField] TMP_Text Atk;
     [SerializeField] TMP_Text ST;
 
-    ITaggedOperation sum = new SumOperation();
+    [Space,SerializeField] List<Status> statusList = new();
 
     Dictionary<string, IValueReference<int>> stats = new();
     const string prof = "prof",str = "str", atk = "atk",st="st";
@@ -19,16 +20,12 @@ public class Sheet : MonoBehaviour
 
     private void Awake()
     {
-        //setting stats
         stats[prof] = new NumberReference(2);
         stats[str] = new NumberReference(3);
-        stats[atk] = new ValueMerger(stats[str], stats[prof], sum);
-        stats[st] = new ValueMerger(stats[str], stats[prof], sum);
+        stats[atk] = new ValueMerger(stats[str], stats[prof], Operations.Get("+"));
+        stats[st] = new ValueMerger(stats[str], stats[prof], Operations.Get("+"));
 
-        //showing
-        Str.text = $"Str: {stats[str].Value}";
-        Atk.text = $"Atk: {stats[atk].Value}";
-        ST.text = $"ST: {stats[st].Value}";
+        //show
 
         //macros
         MultiMacro multiMacro = new(new("Sword",""));
@@ -54,7 +51,7 @@ public class Sheet : MonoBehaviour
             valueReference = GetValueReference(references[0].Item2);
             for (int i = 1; i < references.Count; i++)
             {
-                valueReference = new ValueMerger(valueReference, GetValueReference(references[i].Item2), sum);
+                valueReference = new ValueMerger(valueReference, GetValueReference(references[i].Item2), Operations.Get("+"));
             }
         }
         else valueReference = new NumberReference(0);
@@ -63,13 +60,4 @@ public class Sheet : MonoBehaviour
     }
 
     private IValueReference<int> GetValueReference(string key) => stats.ContainsKey(key)? stats[key] : new NumberReference(0);
-}
-public class RollData
-{
-    public int type, amount;
-    public RollData( int type, int amount)
-    {
-        this.type = type;
-        this.amount = amount;
-    }
 }
