@@ -6,15 +6,15 @@ using UnityEngine;
 public class Keyword 
 {
     public string word;
-    public Color color = Color.white;
+    public Color? color = null;
     [Multiline]public string description;
-    private string coloredText => $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{word}</color>";
+    private string coloredText => color == null ? $"<color=#{ColorUtility.ToHtmlStringRGBA(color.Value)}>{word}</color>" : word;
 
     public Keyword(string _word, string _description, Color? _color = null)
     {
         word = _word;
         description = _description;
-        color = _color ?? Color.white;
+        color = _color;
     }
 
     public static implicit operator string(Keyword keyword) => keyword.coloredText;
