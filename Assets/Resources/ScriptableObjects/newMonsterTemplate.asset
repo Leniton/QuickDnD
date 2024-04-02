@@ -19,6 +19,13 @@ MonoBehaviour:
   Str: 1
   Dex: 2
   Con: 2
-  Int: 0
+  Int: -1
   Wis: 0
   Cha: 3
+  macros:
+  - word: Magic missiles
+    description: d4
+  - word: Sword
+    description: 'Arrack: 1d20+[str] + [prof]
+
+      Damage: 1d8 + [int]'

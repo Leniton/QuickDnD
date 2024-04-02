@@ -10,7 +10,7 @@ public class Macro : IMacro
         bonusData = _bonusData;
         macro = dieFormula;
         int id = dieFormula.description.ToLower().IndexOf('d');
-        rollData = id > 0 ? new RollData(GetDieNumber(dieFormula.description, id), GetNumberOfDies(dieFormula.description, id)) : null;
+        rollData = id >= 0 ? new RollData(GetDieNumber(dieFormula.description, id), GetNumberOfDies(dieFormula.description, id)) : null;
     }
 
     private int GetDieNumber(string value, int dID)
@@ -75,13 +75,15 @@ public class Macro : IMacro
         value = diceRoll.GetValue();
 
         string debug = "";
+        string bonusString = bonus != 0 ? $" {operation.key} {bonus}" : "";
         for (int i = 0; i < dices.Length; i++)
         {
-            debug += $"{dices[i].lastRoll} {operation.key} ";
+            string extra = i < diceAmount - 1 ? $" {operation.key}" : "";
+            debug += $"{dices[i].lastRoll}{extra}";
         }
-        debug += bonus.ToString();
+        debug += bonusString;
 
-        return $"{diceAmount}d{diceType} {operation.key} {bonus} = {value} [{debug}]";
+        return $"{diceAmount}d{diceType}{bonusString} = {value} [{debug}]";
     }
 }
 

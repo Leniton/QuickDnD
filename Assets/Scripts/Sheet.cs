@@ -35,14 +35,14 @@ public class Sheet : MonoBehaviour
         StS.text = $"StS: {template.Stats[MonsterTemplate.sStS].GetValue()}";
 
         //macros
-        MultiMacro multiMacro = new(new("Sword",""));
+        /*MultiMacro multiMacro = new(new("Sword",""));
         multiMacro.Add(CreateMacro("Attack", "1d20 + [str] + [prof]"));
         multiMacro.Add(CreateMacro("Damage", "1d6 + [str]"));
-        macros.Add(multiMacro);
+        macros.Add(multiMacro);*/
 
-        for (int i = 0; i < macros.Count; i++)
+        for (int i = 0; i < template.Macros.Count; i++)
         {
-            Debug.Log(macros[i].UseMacro());
+            Debug.Log(template.Macros[i].reference.UseMacro());
         }
     }
 

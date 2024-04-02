@@ -8,7 +8,7 @@ public class Keyword
     public string word;
     public Color? color = null;
     [Multiline]public string description;
-    private string coloredText => color == null ? $"<color=#{ColorUtility.ToHtmlStringRGBA(color.Value)}>{word}</color>" : word;
+    private string coloredText => color != null ? $"<color=#{ColorUtility.ToHtmlStringRGBA(color.Value)}>{word}</color>" : word;
 
     public Keyword(string _word, string _description, Color? _color = null)
     {
